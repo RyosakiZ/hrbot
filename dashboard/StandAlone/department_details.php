@@ -71,13 +71,14 @@
 
                         <div class="row">
                             <div class="col-sm-8">
-                                <h3 class="mb-0"> รายละเอียดฝ่าย</h3>
+                                <h3 class="mb-0">รายละเอียดฝ่าย</h3>
                             </div>
-                            <div class="col-sm-4"><button type="button" class="btn btn-success btn-lg btn-block"  data-toggle="modal" data-target="#add_section" >เพื่มฝ่าย</button></div>
+                            <div class="col-sm-2"><button type="button" class="btn btn-success btn-lg btn-block"  data-toggle="modal" data-target="#add_section" >เพิ่มฝ่าย</button></div>
                             <?php include('component/department_add_section_modal.php'); ?>
-                            
+                            <div class="col-sm-2"><button type="button" class="btn btn-danger btn-lg btn-block"  data-toggle="modal" data-target="del_section" >ลบฝ่าย</button></div>
+                            <?php //include('component/department_del_modal.php'); ?>
                         </div>
-                        <form name="form1" method="get" action="">
+                        <form >
                             <div class="form-group row">
                                 <label for="keyword" class="col-sm-6 col-form-label text-left">
 
@@ -126,11 +127,13 @@
                                                                     echo $row_count['mycount'];
                                                                     ?>
                                                             คน
-                                                        </td>
+                                                        </td>   
                                                         <?php include('component/department_edit_section_modal.php'); ?>
                                                         <td class="text-right">
                                                         <!-- <button type="button" class="btn btn-info">ส่งข้อความฝ่าย</button> -->
-                                                        <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#edit_section_<?=$row["section_id"]; ?>"  >แก้ไขชื่อฝ่าย</button>
+                                                        <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#edit_section_<?=$row["section_id"]; ?>">แก้ไขชื่อฝ่าย</button>
+                                                        <!--<a href="department_details.php?department_id=<?//= $row['department_id']?>" class="btn btn-default">รายละเอียดฝ่าย</a>-->
+                                                        <a href="department_details_person.php" class="btn btn-default">รายละเอียดบุคคล</a>
                                                       
 
                                                         <!-- <a href="department_details.php?department_id=<?= $row['department_id']?>" class="btn btn-warning">ตรวจสอบและแก้ไขเวลาหยุดงาน</a> -->

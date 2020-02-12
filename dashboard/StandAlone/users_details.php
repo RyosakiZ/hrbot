@@ -72,28 +72,25 @@ GROUP BY users_id
                             <br>
                         </div>
                         <div class="row">
-                        <div class="col-1">
-
-</div>
                             <div class="col-4">
                                 <?php if ($row["users_active"] == '0') {
                                     echo '<span class="badge badge-dot mr-3"> 
-                            <i class="bg-warning"></i> ยังไม่มีข้อมูลพนักงาน
+                            <i class="bg-warning"></i>ไม่มีข้อมูลพนักงาน
                             </span> ';
                                 }
                                 if ($row["users_active"] == '1') {
                                     echo '<span class="badge badge-dot mr-3"> 
-                            <i class="bg-success"></i> มีสถานะพนักงาน
+                            <i class="bg-success"></i>มีสถานะพนักงาน
                             </span> ';
                                 }
                                 if ($row["users_active"] == '2') {
                                     echo '<span class="badge badge-dot mr-3"> 
-                            <i class="bg-primary"></i> พักงาน
+                            <i class="bg-primary"></i>พักงาน
                             </span> ';
                                 }
                                 if ($row["users_active"] == '3') {
                                     echo '<span class="badge badge-dot mr-3"> 
-                            <i class="bg-danger"></i> หมดสถานะพนักงาน
+                            <i class="bg-danger"></i>หมดสถานะพนักงาน
                             </span> ';
                                 }
                                 ?>
@@ -111,7 +108,7 @@ GROUP BY users_id
                                     </div>
                                     <div class="col-5">
         
-                                        <p>ยังไม่ถูกเชื่อมต่อ</p>
+                                    <span class="badge badge-dot mr-3">ยังไม่ถูกเชื่อมต่อ</span>
                                     </div> 
                                                         ';
                                     }else{
@@ -122,7 +119,7 @@ GROUP BY users_id
                                     </div>
                                     <div class="col-5">
         
-                                        <p>เชื่อมต่อสำเร็จ</p>
+                                    <span class="badge badge-dot mr-3">เชื่อมต่อสำเร็จ</span>
                                     </div> 
                                                         ';
 

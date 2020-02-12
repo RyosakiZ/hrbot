@@ -1,9 +1,18 @@
 <?php
 require_once("config/dbconnect.php");
 
-$datarange = $_POST['daterange'];
-$startdate = $_POST['startdate1'];
-$enddate = $_POST['enddate1'];
+//$datarange = $_POST['daterange'];
+//$datarange = '01/01/2018 - 01/12/2018';
+//$datarange = $_POST['monthrange'];
+$startdate = $_POST['startdate'];
+//$startdate = '2019-12-01';
+$enddate = $_POST['enddate'];
+if ($startdate){
+    echo $startdate;
+}
+//$enddate = '2019-12-10';
+//echo $startdate;
+die();
 $sql = "SELECT users_id,users_fname,users_lname,checkin_date,checkin_time,(select checkout_time from checkout where checkout_users_id = a.users_id and checkout_date = checkin_date)as getcheckout 
 from users a left join checkin b on b.checkin_users_id = a.users_id 
 

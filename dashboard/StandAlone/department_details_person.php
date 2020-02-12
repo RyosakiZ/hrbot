@@ -6,13 +6,14 @@
 <body>
     <?php include("component/mod_menu.php"); ?>
 
-
             <?php
+
+            $department_id = $_GET['department_id'];
 
 
             //Method to Query pagination 
             $num = 0;
-            $sql = " SELECT * FROM department WHERE department_id != '1' AND department_status = '1'
+            $sql = " SELECT * FROM section WHERE section_department_id = '$department_id'
 ";
             //////////////////// MORE QUERY 
             // เงื่อนไขสำหรับ input text
@@ -42,22 +43,23 @@
                 $step_num = $_GET['page'] - 1;
                 $s_page = $s_page * $e_page;
             }
-            $sql .= " ORDER BY department_id  ASC LIMIT " . $s_page . ",$e_page";
+            $sql .= " ORDER BY section_id  ASC LIMIT " . $s_page . ",$e_page";
             $result = $conn->query($sql);
 
 
-            $sqllist = "SELECT * FROM department ORDER BY department_id";
+            $sqllist = "SELECT * FROM section ORDER BY section_id";
             $get = $conn->query($sqllist);
             ?>
 
 
             <!-- Header -->
             <!--บน-->
-            <div class="header bg-gradient-primary pb-12 pt-8 pt-md-12">
+            <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
 
 
             </div>
     </nav>
+    
     <div class="container-fluid mt--7">
 
 
@@ -66,16 +68,17 @@
             <div class="col">
                 <div class="card shadow">
                     <div class="card-header border-0">
+
                         <div class="row">
                             <div class="col-sm-8">
-                                <h3 class="mb-0">รายละเอียดแผนก</h3>
+                                <h3 class="mb-0">รายละเอียดบุคคล</h3>
                             </div>
-                            <div class="col-sm-2"><button type="button" class="btn btn-success btn-lg btn-block"  data-toggle="modal" data-target="#add_department" >เพิ่มแผนก</button></div>
-                            <?php include('component/department_add_modal.php'); ?>
-                            <div class="col-sm-2"><button type="button" class="btn btn-danger btn-lg btn-block"  data-toggle="modal" data-target="#del_department" >ลบแผนก</button></div>
-                            <?php //include('component/department_del_modal.php'); ?> 
+                            <div class="col-sm-2"><button type="button" class="btn btn-success btn-lg btn-block"  data-toggle="modal" data-target="#add_section" >เพิ่มพนักงาน</button></div>
+                            <?php include('component/department_add_section_modal.php'); ?>
+                            <div class="col-sm-2"><button type="button" class="btn btn-danger btn-lg btn-block"  data-toggle="modal" data-target="del_section" >ลบพนักงาน</button></div>
+                            <?php //include('component/department_del_modal.php'); ?>
                         </div>
-                        <!--<form name="form1" method="POST" action="department_details.php">-->
+                        <form name="form1" method="get" action="">
                             <div class="form-group row">
                                 <label for="keyword" class="col-sm-6 col-form-label text-left">
 
@@ -113,35 +116,46 @@
                                                             </div>
                                                         </th>
                                                         <td>
-                                                            <?= $row["department_name"]; ?>
+                                                            <?= $row["section_name"]; ?>
                                                         </td>
                                                         <td>
                                                             <?php
-                                                                    $department_id = $row["department_id"];
-                                                                    $sqlcount = "SELECT COUNT(users_id) AS mycount FROM users WHERE users_department ='$department_id' ";
+                                                                    $section_id = $row["section_id"];
+                                                                    $sqlcount = "SELECT COUNT(users_id) AS mycount FROM users WHERE users_section ='$section_id' ";
                                                                     $get_count = $conn->query($sqlcount);
                                                                     $row_count = $get_count->fetch_assoc();
                                                                     echo $row_count['mycount'];
                                                                     ?>
                                                             คน
                                                         </td>
-                                                        <?php //include('component/department_edit_modal.php'); ?>
+                                                        <?php include('component/department_edit_section_modal.php'); ?>
                                                         <td class="text-right">
-                                                        <!-- <button type="button" class="btn btn-info">ส่งข้อความแผนก</button> -->
-                                                        <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#edit_section_<?=$row["section_id"]; ?>">แก้ไขชื่อแผนก</button>
+                                                        <!-- <button type="button" class="btn btn-info">ส่งข้อความฝ่าย</button> -->
+                                                        <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#edit_section_<?=$row["section_id"]; ?>">แก้ไขชื่อฝ่าย</button>
                                                         <a href="department_details.php?department_id=<?= $row['department_id']?>" class="btn btn-default">รายละเอียดฝ่าย</a>
+
+                                                      
+
+                                                        <!-- <a href="department_details.php?department_id=<?= $row['department_id']?>" class="btn btn-warning">ตรวจสอบและแก้ไขเวลาหยุดงาน</a> -->
                                                         </td>
 
                                                     </tr>
+
+                                                   
                                             <?php
+                                            
                                                 }
+                                               
                                             }
                                             ?>
+
+                                            
                                         </tbody>
                                     </table>
 
                                 </div>
                             </div>
+                     
                             <div class="card-footer py-4">
                                 <nav aria-label="...">
                                     <ul class="pagination justify-content-end mb-0">
@@ -154,8 +168,12 @@
                     </div>
                 </div>
             </div>
-        </div>
 
+
+
+
+
+        </div>
 
 
 
@@ -171,14 +189,6 @@
 
         <?php include("component/mod_menu_footer.php"); ?>
         <?php include('config/scipts-config.php'); ?>
-        <script>
-            window.TrackJS &&
-                TrackJS.install({
-                    token: "ee6fab19c5a04ac1a32a645abde4613a",
-                    application: "argon-dashboard-free"
-                });
-        </script>
-               <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>   
 </body>
 
 </html>

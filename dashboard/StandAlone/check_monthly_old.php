@@ -7,22 +7,16 @@
 
 
 
-//$startdate = '2019-01';
-//$enddate = '2019-02';
 $startdate =  $_POST['startdate1'];
 $enddate = $_POST['enddate1'];
-$sql = "SELECT users_id,users_fname,users_lname,checkin_time,checkin_date,(select checkout_time from checkout where checkout_users_id = a.users_id and checkout_date = checkin_date)as getcheckout 
+$sql = "SELECT *,(select checkout_time from checkout where checkout_users_id = a.users_id and checkout_date = checkin_date)as getcheckout 
 from users a left join checkin b on b.checkin_users_id = a.users_id 
+
 WHERE checkin_date  between '$startdate' and '$enddate'
--- AND users_id = '18'
-AND checkin_category = '1' 
-ORDER BY checkin_date ASC
-";
 
+AND checkin_category = '1'
 
-
-
-
+        ";
 
 $result = mysqli_query($conn, $sql);
 if (!$result) {
@@ -31,80 +25,39 @@ if (!$result) {
 }
 
 $resultArray = array();
-
+$resultArray2 = array();
 
 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 
+    $checkout_time = $row['getcheckout'];
+    $checkin_time = $row['checkin_time'];
+    $checkin_date = $row['checkin_date'];
 
 
-    array_push($resultArray, $row);
+    $resultArray[$row['users_fname']." ".$row['users_lname']][$row['checkin_date']]  = $row['checkin_time'] . "|" . $checkout_time;
+    // $resultArray2[$row['users_id']][$row['checkout_date']]  = $row['checkout_time'];
+    // if (isset($resultArray[$row['users_id']][$row['checkin_date']]) || isset($resultArray2[$row['users_id']][$row['checkout_date']])) {
+    //   $resultArray[$row['users_id']][$row['checkin_date']]  = $row['checkin_time'];   
+    //  $resultArray2[$row['users_id']][$row['checkout_date']]  = $row['checkout_time'];
+    // } else { // ถ้ายังไม่มีให้เท่ากับ 1
+
+
+    //      $resultArray[$row['users_id']][$row['checkin_date']] =  $row['checkin_time'];
+    //      $resultArray2[$row['users_id'] ][$row['checkout_date']]  = $row['checkout_time'];
+
+
+
 }
-
-$sql2 = "SELECT leave_paper_users_id , leave_paper_start_date , leave_paper_end_date from leave_paper 
-WHERE `leave_paper_start_date`
-AND `leave_paper_end_date`  between '$startdate' and '$enddate' 
--- AND leave_paper_users_id = '18'
-ORDER BY leave_paper_start_date ASC
-";
-
-$resultArray_leave = array();
-$result_2 = mysqli_query($conn, $sql2);
-while ($row_2 = mysqli_fetch_array($result_2)) {
-
-    array_push($resultArray_leave, $row_2);
-}
-// print("<pre>".print_r($resultArray,true)."</pre>");
+// }
 
 
-foreach ($resultArray as $key1 => $value1) {
-    foreach ($resultArray_leave as $key2 => $value2) {
-
-
-/*
-        if ($value1['users_id'] == $value2['leave_paper_users_id']) {
-            $result_array_all[$value1['users_id'] . "-leave-" . $value2['leave_paper_start_date']] = $value2 + $value1;
-        } else {
-            $result_array_all[$value1['users_id'] . "-normal-" . $value1['checkin_date']] = $value1;
-        }
-        */
-
-        if ($value1['users_id'] == $value2['leave_paper_users_id']) {
-            $result_array_all[$value1['users_id'] . "-leave-" . $value2['leave_paper_start_date']] = $value2 + $value1;
-        } else {
-            $result_array_all[$value1['checkin_date']] = $value1;
-        }
-    }
-}
-echo '<hr>';
-print("<pre>" . print_r($result_array_all, true) . "</pre>");
-
-
-    $explode_arr = array();
-
-    foreach($result_array_all as $k => $v) {
-
-        $ex_temp = explode("-" ,$k);
-
-        
-
-        array_push($explode_arr,$ex_temp);
-    }
-
-    
-echo '<hr>';
-print("<pre>" . print_r($explode_arr, true) . "</pre>");
-
-    
 ?>
-
-
 
 
 
 <body>
 
-    <?php //include("component/mod_menu.php"); 
-    ?>
+    <?php include("component/mod_menu.php"); ?>
 
 
 
@@ -120,7 +73,7 @@ print("<pre>" . print_r($explode_arr, true) . "</pre>");
                     <div class="card">
                         <!-- Card header -->
                         <div class="card-header border-0">
-                            <h3 class="mb-0">Monthly Report</h3>
+                            <h3 class="mb-0">Monthly Report </h3>
                         </div>
                         <!-- Light table -->
                         <div class="table-responsive">
@@ -128,8 +81,9 @@ print("<pre>" . print_r($explode_arr, true) . "</pre>");
                                 <thead class="thead-light">
 
                                     <tr>
-                                        <th scope="col" class="sort" data-sort="name">รหัสพนักงาน</th>
                                         <th scope="col" class="sort" data-sort="name">ชื่อ</th>
+                                        <!--<th scope="col" class="sort" data-sort="name">ชื่อ</th>-->
+                                        <th scope="col">วันที่</th>
                                         <?php for ($i = 1; $i <= 31; $i++) { ?>
 
                                             <th scope="col"><?= $i ?></th>
@@ -139,22 +93,21 @@ print("<pre>" . print_r($explode_arr, true) . "</pre>");
                                 </thead>
 
                                 <?php
-                                if ($resultArray && $result_array_all) {
+                                if ($resultArray) {
 
-                                    //$mergeArray = array_merge($resultArray,$explode_arr);
-                                        foreach ($explode_arr as $k_item => $v_data) {
 
+                                    foreach ($resultArray as $k_item => $v_data) {
                                         
-                                         
-                                        
-                                            // echo "TEST";
+
+
+
 
                                 ?>
                                         <tbody class="list">
-                                                
+
                                             <tr>
-                                                <!-- //แยกไอเทม เป็น arrays -->
-                                                <td><?= $v_data[0]?></td>
+
+                                            <td><?=  $k_item ?></td>
                                                 <th scope="row">
 
                                                     <!-- statement check Date -->
@@ -165,24 +118,16 @@ print("<pre>" . print_r($explode_arr, true) . "</pre>");
 
                                                         //   echo $key_date;
 
-                                                        // if (isset($v_data[$key_date]) == $key_date) {
-                                                            if($v_data) {
-                                                                
-                                                            ?>
+                                                        if (isset($v_data[$key_date]) == $key_date) { ?>
 
 
-                                                            <?php echo '<td>' . $v_data[1] . '</td>' ?>
-                                                            
-                                                          
+                                                            <?php echo '<td>' . $v_data[$key_date] . '</td>' ?>
+                                                            <!-- <?php echo '<td> ' . $v2_data[$key_date] . '</td>' ?> -->
 
 
                                                     <?php
 
                                                         } else {
-
-
-
-                                                            //ไม่มาทำงาน
                                                             echo ' <td bgcolor="#FF0000"> - </td>';
                                                         }
                                                     } ?>

@@ -14,7 +14,7 @@
 
 
 
-            <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+            <div class="header bg-gradient-primary pb-12 pt-8 pt-md-12">
 
 
             </div>
@@ -27,7 +27,6 @@
             <div class="col">
                 <div class="card shadow">
                     <div class="card-header border-0">
-
 
                         <form action="controller/broadcast_pushmessage.php" id="form_department" method="POST">
                             <input type="hidden" class="form-control" name="users_id" value="<?php echo $row["users_id"]; ?>">
