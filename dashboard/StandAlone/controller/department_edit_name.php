@@ -7,21 +7,13 @@ $date = date("Y-m-d");
 $time = date("H:i:s");
 include('../config/dbconnect.php');
 
-/* <input type="text" name="section_name" value="<?=$row["section_name"] ?>" class="form-control"  />   
- */
 
-$section_name = $_POST["section_name1"];
-$section_id = $_POST["section_id1"];
-$department_id = $_POST["department_id"];
+$department_name = $_GET["department_name"];
+//$section_id = $_GET["section_id_depart"];
+$department_id = $_GET["department_id"];
 
-echo 'Section name: ' . $section_name;
-echo '<br>';
-echo 'Section id: ' . $section_id;
-echo '<br>';
-echo 'Department id: ' . $department_id;
-
-die();
-
+//echo $section_name;
+//echo $section_id;
 // echo $id;
 // echo $status;
 
@@ -46,9 +38,9 @@ die();
  mysqli_set_charset($conn,"utf8");
 
 
- $sql = "UPDATE section SET 
- section_name = '$section_name'
- WHERE section_id = '$section_id' AND section_department_id = '$department_id' ";
+ $sql = "UPDATE department SET 
+ department_name = '$department_name'
+ WHERE department_id = '$section_id' ";
 
 	$query = mysqli_query($conn,$sql);
 
@@ -58,7 +50,7 @@ die();
      header( "refresh: 2; url=../department_details.php?department_id=".$department_id );
      exit(0);
 	}else {
-        echo "error";
+        echo "eror";
     }
 
 	mysqli_close($conn);

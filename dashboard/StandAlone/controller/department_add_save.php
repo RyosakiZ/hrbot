@@ -25,8 +25,8 @@ $department_name = $_POST["department_name"];
  mysqli_set_charset($conn,"utf8");
 
 
- $sql = "INSERT INTO department (department_name)
- VALUES ('$department_name') ";
+ $sql = "INSERT INTO department (department_name,department_status)
+ VALUES ('$department_name','1') ";
 
 	$query = mysqli_query($conn,$sql);
 
