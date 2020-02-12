@@ -9,13 +9,13 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">เพื่มแผนก </h5>
+                <h5 class="modal-title" id="exampleModalLabel">เพิ่มแผนก </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span>&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="controller/department_add_save.php" id="myForm" method="post">
+                <form action="controller/department_add_save.php" id="myForm1" method="post">
 
 
 
@@ -62,7 +62,7 @@
     $('#btn_submit').on('click', function(e) {
 
         e.preventDefault();
-        var form = $(this).parent('myForm');
+        var form = $(this).parent('myForm1');
         swal.fire({
 
             title: "ยืนยันการทำงานของท่าน?",
@@ -77,7 +77,7 @@
                 $.ajax({
                     url: 'controller/department_add_save.php',
                     type: "post",
-                    data: $('#myForm').serialize(),
+                    data: $('#myForm1').serialize(),
                     cache: false,
                     success: function(dataResult) {
                         var dataResult = JSON.parse(dataResult);
@@ -88,7 +88,7 @@
 
                             Swal.fire(
                                 'สำเร็จ',
-                                'ทำการเพื่มพนักงานเรียบร้อย',
+                                'ทำการเพิ่มแผนกเรียบร้อย',
                                 'success'
                             ).then(() => {
                                 location.reload();
